@@ -1,0 +1,5 @@
+[syncthing-server]
+192.168.42.36
+
+[syncthing-server:vars]
+ansible_ssh_user=ubuntu
