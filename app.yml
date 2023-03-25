@@ -4,5 +4,6 @@
   become: true
   become_user: root
   roles:
-    - role: common
-    - role: syncthing
+    - role: essential
+    - role: docker
+    - role: docker-compose

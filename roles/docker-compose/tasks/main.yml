@@ -1,0 +1,33 @@
+---
+- name: Create /opt/syncthing directory
+  file:
+    path: "/opt/syncthing"
+    state: directory
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    mode: u=rwx,g=rwx,o=
+
+- name: Copy docker-compose.yml for web app
+  template:
+    src: docker-compose.yml
+    dest: /opt/syncthing/docker-compose.yml
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    mode: u=rw,g=r,o=
+  become: yes
+
+- name: Copy syncthing service
+  template:
+    src: systemd/syncthing.service
+    dest: /etc/systemd/system/syncthing.service
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    mode: u=rw,g=r,o=
+  become: yes
+
+- name: Enable syncthing service
+  systemd:
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    name: syncthing
